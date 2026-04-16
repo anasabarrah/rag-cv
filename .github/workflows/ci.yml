@@ -1,0 +1,40 @@
+# ─────────────────────────────────────────
+# CI/CD Pipeline — GitHub Actions
+# Se déclenche à chaque push sur main
+# ─────────────────────────────────────────
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    # 1. Récupère le code
+    - name: Checkout code
+      uses: actions/checkout@v3
+    
+    # 2. Installe Python
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+    
+    # 3. Installe les dépendances
+    - name: Install dependencies
+      run: |
+        pip install pytest fastapi pdfplumber groq
+    
+    # 4. Lance les tests
+    - name: Run tests
+      run: |
+        pytest test_app.py -v
+    
+    # 5. Si tests OK → message de succès
+    - name: Success
+      run: echo "✅ Tous les tests passent !"
