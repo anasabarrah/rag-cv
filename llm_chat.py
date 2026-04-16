@@ -16,10 +16,17 @@ def lire_pdf(chemin):
         for page in pdf.pages:
             texte += page.extract_text() or ""
     return texte
+# Si le PDF existe, on le lit
+# Sinon on utilise un texte par défaut
 
-document = lire_pdf("cv_anas.pdf")
-print(f"📄 PDF lu ! {len(document)} caractères trouvés")
-
+if os.path.exists("cv_anas.pdf"):
+    document = lire_pdf("cv_anas.pdf")
+else:
+    document = """
+    Anas Abarrah, étudiant ingénieur ENSEIRB-MATMECA.
+    Compétences : Python, JavaScript, C.
+    Formation : Prépa MP + ENSEIRB informatique.
+    """
 # ─────────────────────────────────────────
 # ÉTAPE 3 : La fonction RAG
 # ─────────────────────────────────────────
